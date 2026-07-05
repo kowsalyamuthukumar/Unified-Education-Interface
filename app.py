@@ -1073,6 +1073,54 @@ def delete_class(class_id):
 
     return redirect("/admin-dashboard")
 
+
+# ================= DELETE USER (Admin) =================
+@app.route("/delete-user/<int:user_id>")
+def delete_user(user_id):
+    if session.get("role") != "admin":
+        return redirect("/login")
+    conn = sqlite3.connect("database/app.db")
+    conn.execute("DELETE FROM users WHERE id=?", (user_id,))
+    conn.commit()
+    conn.close()
+    return redirect("/admin-dashboard")
+
+
+# ================= DELETE QUIZ (Teacher) =================
+@app.route("/delete-quiz/<int:quiz_id>")
+def delete_quiz(quiz_id):
+    if session.get("role") != "teacher":
+        return redirect("/login")
+    conn = sqlite3.connect("database/app.db")
+    # get class_id before deleting so we can redirect back
+    quiz = conn.execute(
+        "SELECT class_id FROM quizzes WHERE id=?", (quiz_id,)
+    ).fetchone()
+    conn.execute("DELETE FROM quizzes WHERE id=?", (quiz_id,))
+    conn.execute("DELETE FROM quiz_questions WHERE quiz_id=?", (quiz_id,))
+    conn.commit()
+    conn.close()
+    if quiz:
+        return redirect(f"/class/{quiz[0]}")
+    return redirect("/teacher-dashboard")
+
+
+# ================= QUIZ RESULTS (Teacher) =================
+@app.route("/quiz-results/<int:quiz_id>")
+def quiz_results(quiz_id):
+    if session.get("role") != "teacher":
+        return redirect("/login")
+    conn = sqlite3.connect("database/app.db")
+    quiz = conn.execute(
+        "SELECT * FROM quizzes WHERE id=?", (quiz_id,)
+    ).fetchone()
+    results = conn.execute(
+        "SELECT * FROM quiz_results WHERE quiz_id=? ORDER BY score DESC",
+        (quiz_id,)
+    ).fetchall()
+    conn.close()
+    return render_template("quiz_results.html", quiz=quiz, results=results)
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
