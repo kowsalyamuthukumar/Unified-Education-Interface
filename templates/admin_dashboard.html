@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UEI - Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            <li><a href="/admin-dashboard">Dashboard</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="welcome-section">
+        <h1>Hi, {{ session['name'] }}! 🛡️</h1>
+        <p>Welcome to the Admin Panel</p>
+    </section>
+
+    <!-- Stats -->
+    <div class="admin-section">
+        <div class="admin-stats">
+            <div class="admin-stat-card">
+                <div class="admin-stat-number">{{ total_students }}</div>
+                <div class="admin-stat-label">👨‍🎓 Students</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-number">{{ total_teachers }}</div>
+                <div class="admin-stat-label">👩‍🏫 Teachers</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-number">{{ total_classes }}</div>
+                <div class="admin-stat-label">🏫 Classes</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-number">{{ total_quizzes }}</div>
+                <div class="admin-stat-label">📝 Quizzes</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-number">{{ total_assignments }}</div>
+                <div class="admin-stat-label">📚 Assignments</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="admin-stat-number">{{ total_submissions }}</div>
+                <div class="admin-stat-label">📤 Submissions</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Teachers -->
+    <div class="admin-section">
+        <div class="admin-card">
+            <h2>👩‍🏫 Manage Teachers</h2>
+            <table class="admin-table">
+                <tr><th>Name</th><th>Email</th><th>Action</th></tr>
+                {% for teacher in teachers %}
+                <tr>
+                    <td>{{ teacher[1] }}</td>
+                    <td>{{ teacher[2] }}</td>
+                    <td>
+                        <a href="/delete-user/{{ teacher[0] }}"
+                           onclick="return confirm('Delete this teacher?')"
+                           class="admin-btn-delete">Delete</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="3" style="color:#888; text-align:center;">No teachers yet</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <!-- Manage Students -->
+    <div class="admin-section">
+        <div class="admin-card">
+            <h2>👨‍🎓 Manage Students</h2>
+            <table class="admin-table">
+                <tr><th>Name</th><th>Email</th><th>Action</th></tr>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student[1] }}</td>
+                    <td>{{ student[2] }}</td>
+                    <td>
+                        <a href="/delete-user/{{ student[0] }}"
+                           onclick="return confirm('Delete this student?')"
+                           class="admin-btn-delete">Delete</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="3" style="color:#888; text-align:center;">No students yet</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <!-- Manage Classes -->
+    <div class="admin-section">
+        <div class="admin-card">
+            <h2>🏫 Manage Classes</h2>
+            <table class="admin-table">
+                <tr><th>Class</th><th>Teacher</th><th>Students</th><th>Resources</th><th>Quizzes</th><th>Action</th></tr>
+                {% for cls in classes %}
+                <tr>
+                    <td>{{ cls[1] }}</td>
+                    <td>{{ cls[2] }}</td>
+                    <td>{{ cls[3] }}</td>
+                    <td>{{ cls[4] }}</td>
+                    <td>{{ cls[5] }}</td>
+                    <td>
+                        <a href="/delete-class/{{ cls[0] }}"
+                           onclick="return confirm('Delete this class?')"
+                           class="admin-btn-delete">Delete</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" style="color:#888; text-align:center;">No classes yet</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <!-- Global Announcements -->
+    <div class="admin-section">
+        <div class="admin-card">
+            <h2>📢 Global Announcements</h2>
+            <form action="/post-admin-announcement" method="POST">
+                <textarea name="message" rows="3"
+                    placeholder="Write announcement to all users..."
+                    required
+                    style="width:100%; padding:12px; border:2px solid #e0e0e0;
+                           border-radius:8px; font-size:14px; resize:none;
+                           font-family:'Segoe UI'; margin-bottom:10px;"></textarea>
+                <button type="submit" class="btn-getstarted">Post Announcement</button>
+            </form>
+
+            {% if announcements %}
+            <div style="margin-top:20px;">
+                {% for a in announcements %}
+                <div class="admin-announcement">
+                    <p style="font-weight:600; color:#1a237e;">{{ a[2] }}</p>
+                    <p style="margin-top:4px;">{{ a[1] }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface | B.E. CSE Mini Project</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UEI - Create Class</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            <li><a href="/teacher-dashboard">Dashboard</a></li>
+            <li><a href="/create-class">Create Class</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="auth-wrap">
+        <div class="auth-card">
+            <h2>Create Class</h2>
+            <form action="/create-class" method="POST">
+                <label>Class Name</label>
+                <input type="text" name="class_name" placeholder="e.g. CSE-A Python" required>
+                <button type="submit">Create Class</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface &nbsp;|&nbsp; B.E. CSE Mini Project</p>
+    </footer>
+</body>
+</html>

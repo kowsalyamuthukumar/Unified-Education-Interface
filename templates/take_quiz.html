@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>{{ quiz[2] }}</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="nav-brand">📚 UEI</div>
+
+<ul class="nav-links">
+
+{% if session.get("role")=="teacher" %}
+
+<li><a href="/teacher-dashboard">Dashboard</a></li>
+
+{% else %}
+
+<li><a href="/student-dashboard">Dashboard</a></li>
+
+{% endif %}
+
+<li><a href="/logout">Logout</a></li>
+
+</ul>
+
+</nav>
+
+<section class="welcome-section">
+
+<h1>{{ quiz[2] }}</h1>
+
+<p>
+
+Duration :
+{{ quiz[4] }} mins
+
+|
+
+Deadline :
+{{ quiz[5] }}
+
+</p>
+
+</section>
+
+<div class="dashboard-container">
+
+<div class="dashboard-card">
+
+<p>
+
+<b>Instructions</b>
+
+</p>
+
+<p>
+
+{{ quiz[3] }}
+
+</p>
+
+<hr>
+
+{% if session.get("role")=="teacher" %}
+
+<h3>Add Question</h3>
+
+<form action="/add-question/{{ quiz[0] }}"
+method="POST">
+
+<select
+name="question_type">
+
+<option value="MCQ">
+
+MCQ
+
+</option>
+
+<option value="TrueFalse">
+
+True / False
+
+</option>
+
+<option value="FillBlank">
+
+Fill Blank
+
+</option>
+
+</select>
+
+<input
+type="text"
+name="question"
+placeholder="Question"
+required>
+
+<input
+type="text"
+name="option_a"
+placeholder="Option A">
+
+<input
+type="text"
+name="option_b"
+placeholder="Option B">
+
+<input
+type="text"
+name="option_c"
+placeholder="Option C">
+
+<input
+type="text"
+name="option_d"
+placeholder="Option D">
+
+<input
+type="text"
+name="correct_answer"
+placeholder="Correct Answer"
+required>
+
+<button
+class="btn-getstarted">
+
+Add Question
+
+</button>
+
+</form>
+
+<hr>
+
+<h3>Questions Added</h3>
+
+{% for q in questions %}
+
+<p>
+
+{{ loop.index }}.
+
+{{ q[4] }}
+
+</p>
+
+{% endfor %}
+
+{% else %}
+
+<a
+href="/start-quiz/{{ quiz[0] }}"
+class="btn-getstarted">
+
+Start Quiz
+
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+<footer class="footer">
+
+<p>
+
+© 2026 Unified Education Interface
+
+</p>
+
+</footer>
+
+</body>
+
+</html>

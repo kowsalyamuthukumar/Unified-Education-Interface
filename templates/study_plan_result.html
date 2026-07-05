@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UEI - Your Study Plan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            <li><a href="/student-dashboard">Dashboard</a></li>
+            <li><a href="/study-planner">New Plan</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="welcome-section">
+        <h1>🤖 Your Personalized Study Plan</h1>
+        <p>Follow this schedule to stay on track for your exam</p>
+    </section>
+
+    <div class="planner-wrap">
+        <div class="planner-result-card">
+
+            <div class="planner-result-header">
+                <span>📅 Day-by-Day Schedule</span>
+                <a href="/study-planner" class="planner-btn" style="font-size:13px; padding:8px 16px;">+ New Plan</a>
+            </div>
+
+            <table class="planner-table">
+                <tr>
+                    <th>📅 Date</th>
+                    <th>📚 Today's Task</th>
+                </tr>
+                {% for row in plan %}
+                <tr>
+                    <td>{{ row.date }}</td>
+                    <td>
+                        <span class="planner-task-badge">{{ row.task }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <div style="margin-top:20px; text-align:center;">
+                <a href="/student-dashboard" class="planner-btn">← Back to Dashboard</a>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface | B.E. CSE Mini Project</p>
+    </footer>
+
+</body>
+</html>

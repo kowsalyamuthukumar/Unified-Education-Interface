@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>{{ quiz[2] }}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="nav-brand">
+
+            📚 UEI
+
+        </div>
+
+    </nav>
+
+    <section class="welcome-section">
+        <div class="dashboard-card" style="background:#fff3cd;">
+            <h2>⏰ Time Left: <span id="timer"></span></h2>
+        </div>
+
+        <h1>
+
+            {{ quiz[2] }}
+
+        </h1>
+
+        <p>
+
+            Duration
+
+            {{ quiz[4] }} Minutes
+
+        </p>
+
+        <p>
+
+            Deadline
+
+            {{ quiz[5] }}
+
+        </p>
+
+    </section>
+
+    <div class="dashboard-container">
+
+        <div class="dashboard-card">
+
+            <form method="POST">
+
+                {% for q in questions %}
+
+                <hr>
+
+                <h3>
+
+                    {{ loop.index }}.
+
+                    {{ q[4] }}
+
+                </h3>
+
+                {% if q[2]=="MCQ" %}
+
+                <label>
+
+                    <input type="radio" name="q{{ q[0] }}" value="{{ q[5] }}">
+
+                    {{ q[5] }}
+
+                </label>
+
+                <br>
+
+                <label>
+
+                    <input type="radio" name="q{{ q[0] }}" value="{{ q[6] }}">
+
+                    {{ q[6] }}
+
+                </label>
+
+                <br>
+
+                <label>
+
+                    <input type="radio" name="q{{ q[0] }}" value="{{ q[7] }}">
+
+                    {{ q[7] }}
+
+                </label>
+
+                <br>
+
+                <label>
+
+                    <input type="radio" name="q{{ q[0] }}" value="{{ q[8] }}">
+
+                    {{ q[8] }}
+
+                </label>
+
+                {% elif q[2]=="TrueFalse" %}
+
+                <label>
+
+                    <input type="radio" name="q{{ q[0] }}" value="True">
+
+                    True
+
+                </label>
+
+                <br>
+
+                <label>
+
+                    <input type="radio" name="q{{ q[0] }}" value="False">
+
+                    False
+
+                </label>
+
+                {% else %}
+
+                <input type="text" name="q{{ q[0] }}" placeholder="Your Answer">
+
+                {% endif %}
+
+                {% endfor %}
+
+                <br><br>
+
+                <button class="btn-getstarted">
+
+                    Submit Quiz
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        let time = Number("{{ quiz[4] }}") * 60;
+        function updateTimer() {
+
+            let minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+
+            document.getElementById("timer").innerHTML =
+                minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
+            if (time <= 0) {
+
+                alert("Time is over! Quiz submitted automatically.");
+
+                document.forms[0].submit();
+
+            }
+
+            time--;
+
+        }
+
+        updateTimer();
+
+        setInterval(updateTimer, 1000);
+
+    </script>
+
+</body>
+
+</html>

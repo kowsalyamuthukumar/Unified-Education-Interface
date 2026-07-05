@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEI - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+        </ul>
+    </nav>
+
+    <div class="auth-wrap">
+        <div class="auth-card">
+            <h2>Login</h2>
+
+            <form action="/login" method="POST">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="you@example.com" required>
+
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter password" required>
+
+                <label>Role</label>
+                <select name="role" id="role">
+                    <option value="student" {% if selected_role=='student' %}selected{% endif %}>Student</option>
+                    <option value="teacher" {% if selected_role=='teacher' %}selected{% endif %}>Teacher</option>
+                    <option value="admin" {% if selected_role=='admin' %}selected{% endif %}>Admin</option>
+                </select>
+
+                <div id="admin-code-div" style="display:none;">
+                    <label>Admin Secret Code</label>
+                    <input type="password" name="admin_code" placeholder="Enter secret code">
+                </div>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <p>No account? <a href="/register">Register</a></p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface &nbsp;|&nbsp; B.E. CSE Mini Project</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

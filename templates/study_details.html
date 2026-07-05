@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UEI - Enter Subjects</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            <li><a href="/student-dashboard">Dashboard</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="welcome-section">
+        <h1>🤖 Smart AI Study Planner</h1>
+        <p>Enter each subject along with its exam date</p>
+    </section>
+
+    <div class="planner-wrap">
+        <div class="planner-result-card">
+
+            <div class="planner-result-header">
+                <span>📚 Enter Your Subjects</span>
+            </div>
+
+            <form method="POST" action="/generate-plan">
+                <input type="hidden" name="planner_name" value="{{ planner_name }}">
+                <input type="hidden" name="subject_count" value="{{ subject_count }}">
+
+                <table class="planner-table">
+                    <tr>
+                        <th>Subject</th>
+                        <th>Exam Date</th>
+                    </tr>
+                    {% for i in range(subject_count) %}
+                    <tr>
+                        <td>
+                            <input type="text"
+                                   name="subject{{i}}"
+                                   placeholder="Subject {{i+1}}"
+                                   required
+                                   style="width:100%; padding:9px 12px;
+                                          border:2px solid #e0e0e0;
+                                          border-radius:8px; font-size:14px;
+                                          font-family:'Segoe UI',sans-serif;
+                                          outline:none;">
+                        </td>
+                        <td>
+                            <input type="date"
+                                   name="exam{{i}}"
+                                   required
+                                   style="width:100%; padding:9px 12px;
+                                          border:2px solid #e0e0e0;
+                                          border-radius:8px; font-size:14px;
+                                          font-family:'Segoe UI',sans-serif;
+                                          outline:none;">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+                <div style="margin-top:24px; text-align:center;">
+                    <button type="submit" class="planner-btn">
+                        🚀 Generate AI Study Plan
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface | B.E. CSE Mini Project</p>
+    </footer>
+
+</body>
+</html>

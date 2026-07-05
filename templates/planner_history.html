@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UEI - Planner History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            <li><a href="/student-dashboard">Dashboard</a></li>
+            <li><a href="/study-planner">New Planner</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="welcome-section">
+        <h1>📂 Previous Study Planners</h1>
+        <p>Your previously generated AI study plans</p>
+    </section>
+
+    <div class="planner-wrap">
+        <div class="planner-result-card">
+
+            <div class="planner-result-header">
+                <span>📋 Saved Plans</span>
+                <a href="/study-planner" class="planner-btn"
+                   style="font-size:13px; padding:8px 16px;">+ New Plan</a>
+            </div>
+
+            {% if planners %}
+            <table class="planner-table">
+                <tr>
+                    <th>Planner Name</th>
+                    <th>Generated On</th>
+                    <th>Actions</th>
+                </tr>
+                {% for planner in planners %}
+                <tr>
+                    <td><strong>{{ planner[1] }}</strong></td>
+                    <td style="color:#888;">{{ planner[2] }}</td>
+                    <td>
+                        <a href="/view-planner/{{ planner[0] }}"
+                           class="planner-btn"
+                           style="font-size:12px; padding:6px 14px; margin-right:6px;">
+                            👁 View
+                        </a>
+                        <a href="/delete-planner/{{ planner[0] }}"
+                           onclick="return confirm('Delete this planner?')"
+                           class="planner-btn-delete">
+                            🗑 Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <div style="text-align:center; padding:40px; color:#888;">
+                <div style="font-size:48px; margin-bottom:12px;">📭</div>
+                <p>No study plans generated yet.</p>
+                <a href="/study-planner" class="planner-btn"
+                   style="display:inline-block; margin-top:16px;">Create Your First Plan</a>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface | B.E. CSE Mini Project</p>
+    </footer>
+
+</body>
+</html>

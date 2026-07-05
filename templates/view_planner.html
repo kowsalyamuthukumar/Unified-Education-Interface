@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UEI - {{ planner_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            <li><a href="/student-dashboard">Dashboard</a></li>
+            <li><a href="/planner-history">Previous Planners</a></li>
+            <li><a href="/study-planner">New Plan</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="welcome-section">
+        <h1>🤖 {{ planner_name }}</h1>
+        <p>Previously generated AI study plan</p>
+    </section>
+
+    <div class="planner-wrap">
+        <div class="planner-result-card">
+
+            <div class="planner-result-header">
+                <span>📅 Day-by-Day Schedule</span>
+                <a href="/planner-history" class="planner-btn"
+                   style="font-size:13px; padding:8px 16px;">← All Plans</a>
+            </div>
+
+            <table class="planner-table">
+                <tr>
+                    <th>📅 Date</th>
+                    <th>📚 Today's Task</th>
+                </tr>
+                {% for row in plan %}
+                <tr>
+                    <td>{{ row.date }}</td>
+                    <td><span class="planner-task-badge">{{ row.task }}</span></td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <div style="margin-top:20px; text-align:center; display:flex; gap:12px; justify-content:center;">
+                <a href="/study-planner" class="planner-btn">+ New Plan</a>
+                <a href="/student-dashboard" class="planner-btn"
+                   style="background:#43a047;">← Dashboard</a>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface | B.E. CSE Mini Project</p>
+    </footer>
+
+</body>
+</html>

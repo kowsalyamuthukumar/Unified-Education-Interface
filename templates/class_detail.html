@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UEI - {{ class_info[1] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            {% if session.get('role') == 'teacher' %}
+            <li><a href="/teacher-dashboard">Dashboard</a></li>
+            {% else %}
+            <li><a href="/student-dashboard">Dashboard</a></li>
+            {% endif %}
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="welcome-section">
+        <h1>🏫 {{ class_info[1] }}</h1>
+        <p>Teacher: {{ class_info[2] }} &nbsp;|&nbsp; Join Code: <strong>{{ class_info[3] }}</strong></p>
+    </section>
+
+    <div class="class-wrap">
+
+        <!-- RESOURCES -->
+        <div class="class-card">
+            <div class="class-card-header">
+                <span>📂 Resources</span>
+            </div>
+
+            {% if resources %}
+                {% for r in resources %}
+                <div class="class-item">
+                    <span>📄 <strong>{{ r[1] }}</strong></span>
+                    <a href="/download/{{ r[2] }}" class="class-btn">⬇ Download</a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="class-empty">No resources uploaded yet.</p>
+            {% endif %}
+
+            {% if session.get('role') == 'teacher' %}
+            <form action="/add-resource/{{ class_info[0] }}" method="POST"
+                  enctype="multipart/form-data" class="class-form">
+                <input type="text" name="title" placeholder="Resource Title" required>
+                <input type="file" name="resource_file"
+                       accept=".pdf,.ppt,.pptx,.doc,.docx" required>
+                <button type="submit" class="class-btn">⬆ Upload Resource</button>
+            </form>
+            {% endif %}
+        </div>
+
+        <!-- ASSIGNMENTS -->
+        <div class="class-card">
+            <div class="class-card-header">
+                <span>📝 Assignments</span>
+            </div>
+
+            {% if assignments %}
+                {% for a in assignments %}
+                <div class="class-assignment-item">
+                    <p class="class-assignment-title">📝 {{ a[1] }}</p>
+                    <p class="class-assignment-desc">{{ a[2] }}</p>
+
+                    {% if session.get('role') == 'student' %}
+                    <form action="/submit-assignment/{{ a[0] }}" method="POST"
+                          enctype="multipart/form-data" class="class-form">
+                        <input type="file" name="assignment_file"
+                               accept=".pdf,.doc,.docx" required>
+                        <button type="submit" class="class-btn">Submit Assignment</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="class-empty">No assignments yet.</p>
+            {% endif %}
+
+            {% if session.get('role') == 'teacher' %}
+            <form action="/add-assignment/{{ class_info[0] }}" method="POST"
+                  class="class-form">
+                <input type="text" name="title" placeholder="Assignment title" required>
+                <input type="text" name="description" placeholder="Description" required>
+                <button type="submit" class="class-btn">+ Add Assignment</button>
+            </form>
+
+            {% if submissions %}
+            <div class="class-card-header" style="margin-top:20px;">
+                <span>📥 Student Submissions</span>
+            </div>
+            <table class="admin-table">
+                <tr><th>Student</th><th>File</th><th>Download</th></tr>
+                {% for s in submissions %}
+                <tr>
+                    <td>{{ s[2] }}</td>
+                    <td>{{ s[3] }}</td>
+                    <td><a href="/download/{{ s[3] }}" class="class-btn">⬇ Download</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+            {% endif %}
+        </div>
+
+        <!-- QUIZ -->
+        <div class="class-card">
+            <div class="class-card-header">
+                <span>🧠 Quiz Management</span>
+            </div>
+
+            {% if quizzes %}
+                {% for quiz in quizzes %}
+                <div class="class-quiz-item">
+                    <p class="class-assignment-title">{{ quiz[2] }}</p>
+                    <p class="class-assignment-desc">
+                        ⏱ {{ quiz[4] }} mins &nbsp;|&nbsp;
+                        📅 {{ quiz[5] }} &nbsp;|&nbsp;
+                        📋 {{ quiz[6] }}
+                    </p>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+                        {% if session.get('role') == 'teacher' %}
+                        <a href="/quiz/{{ quiz[0] }}" class="class-btn">Manage</a>
+                        <a href="/quiz-results/{{ quiz[0] }}" class="class-btn">Results</a>
+                        <a href="/delete-quiz/{{ quiz[0] }}" class="class-btn-red">Delete</a>
+                        {% else %}
+                        <a href="/quiz/{{ quiz[0] }}" class="class-btn">Attempt Quiz</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="class-empty">No quizzes available.</p>
+            {% endif %}
+
+            {% if session.get('role') == 'teacher' %}
+            <div class="class-card-header" style="margin-top:20px;">
+                <span>➕ Create Quiz</span>
+            </div>
+            <form action="/create-quiz/{{ class_info[0] }}" method="POST" class="class-form">
+                <input type="text" name="title" placeholder="Quiz Title" required>
+                <input type="number" name="duration" placeholder="Duration (mins)" required>
+                <input type="datetime-local" name="deadline" required>
+                <textarea name="instructions" placeholder="Instructions"
+                          rows="2"></textarea>
+                <select name="quiz_type">
+                    <option>MCQ</option>
+                    <option>True/False</option>
+                    <option>Fill Blank</option>
+                    <option>Mixed</option>
+                </select>
+                <select name="evaluation">
+                    <option>Automatic</option>
+                    <option>Manual</option>
+                </select>
+                <input type="number" name="marks" placeholder="Marks per Question">
+                <label class="class-checkbox">
+                    <input type="checkbox" name="shuffle"> Shuffle Questions
+                </label>
+                <button type="submit" class="class-btn">Create Quiz</button>
+            </form>
+            {% endif %}
+        </div>
+
+        <!-- ANNOUNCEMENTS -->
+        <div class="class-card">
+            <div class="class-card-header">
+                <span>📣 Announcements</span>
+            </div>
+
+            {% if announcements %}
+                {% for an in announcements %}
+                <div class="class-announcement">
+                    <p>📌 {{ an[1] }}</p>
+                    <span class="class-announcement-by">— {{ an[2] }}</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="class-empty">No announcements yet.</p>
+            {% endif %}
+
+            {% if session.get('role') == 'teacher' %}
+            <form action="/add-announcement/{{ class_info[0] }}" method="POST"
+                  class="class-form">
+                <input type="text" name="message"
+                       placeholder="Write an announcement..." required>
+                <button type="submit" class="class-btn">Post Announcement</button>
+            </form>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface &nbsp;|&nbsp; B.E. CSE Mini Project</p>
+    </footer>
+
+</body>
+</html>

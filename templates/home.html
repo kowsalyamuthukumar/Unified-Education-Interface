@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEI - Unified Education Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">Login</a></li>
+            <li><a href="#">Register</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-left">
+            <h1>Unified <span class="highlight">Education</span> Interface</h1>
+            <p class="tagline">One platform for Students, Teachers & Admins</p>
+            <p class="hero-desc">Create classes, share resources, post assignments
+                and quizzes, track progress — all in one place.</p>
+        </div>
+
+        <div class="hero-right">
+            <div class="feature-card">
+                <div class="card-icon">🎓</div>
+                <h3>For Students</h3>
+                <p>Join classes, access resources, submit assignments and take quizzes.</p>
+                <a href="/register?role=student" class="card-link">Join as Student →</a>
+            </div>
+            <div class="feature-card">
+                <div class="card-icon">👨‍🏫</div>
+                <h3>For Teachers</h3>
+                <p>Create classes, upload resources, post assignments and quizzes.</p>
+                <a href="/register?role=teacher" class="card-link">Join as Teacher →</a>
+            </div>
+            <div class="feature-card">
+                <div class="card-icon">🛡️</div>
+                <h3>For Admins</h3>
+                <p>Manage users and oversee the platform.</p>
+                <a href="/register?role=admin" class="card-link">Join as Admin →</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface &nbsp;|&nbsp; B.E. CSE Mini Project</p>
+    </footer>
+
+</body>
+
+</html>

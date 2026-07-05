@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UEI - Smart AI Study Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            <li><a href="/student-dashboard">Dashboard</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="welcome-section">
+        <h1>🤖 Smart AI Study Planner</h1>
+        <p>Enter your subjects and exam date to generate a personalized study plan</p>
+    </section>
+
+    <div class="planner-wrap">
+        <div class="planner-card">
+
+            <div class="planner-icon">🧠</div>
+            <h2>Create Your Study Plan</h2>
+            <p class="planner-subtitle">AI will generate a day-by-day schedule just for you</p>
+
+            <form method="POST">
+                <div class="planner-field">
+                    <label>Planner Name</label>
+                    <input type="text" name="planner_name"
+                           placeholder="e.g. Semester 5 Mid Exam" required>
+                </div>
+
+                <div class="planner-field">
+                    <label>Number of Subjects</label>
+                    <input type="number" name="subject_count"
+                           min="1" max="15" required
+                           placeholder="e.g. 5">
+                </div>
+
+                <button type="submit" class="planner-btn">Next →</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface | B.E. CSE Mini Project</p>
+    </footer>
+
+</body>
+</html>

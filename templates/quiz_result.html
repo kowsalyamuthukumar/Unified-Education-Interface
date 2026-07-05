@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+
+Quiz Result
+
+</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<section class="welcome-section">
+
+<h1>
+
+🎉 Quiz Submitted
+
+</h1>
+
+</section>
+
+<div class="dashboard-container">
+
+<div class="dashboard-card">
+
+<h2>
+
+Score
+
+{{ score }}
+
+</h2>
+
+<h2>
+
+Percentage
+
+{{ percentage }}%
+
+</h2>
+
+<h2>
+
+Total Marks
+
+{{ total }}
+
+</h2>
+
+<a
+href="/student-dashboard"
+class="btn-getstarted">
+
+Back Dashboard
+
+</a>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

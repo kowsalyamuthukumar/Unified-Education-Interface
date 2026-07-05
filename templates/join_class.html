@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UEI - Join Class</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+        <ul class="nav-links">
+            <li><a href="/student-dashboard">Dashboard</a></li>
+            <li><a href="/join-class">Join Class</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="auth-wrap">
+        <div class="auth-card">
+            <h2>Join Class</h2>
+            <form action="/join-class" method="POST">
+                <label>Join Code</label>
+                <input type="text" name="join_code" placeholder="Enter code" required>
+                <button type="submit">Join Class</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface &nbsp;|&nbsp; B.E. CSE Mini Project</p>
+    </footer>
+</body>
+</html>

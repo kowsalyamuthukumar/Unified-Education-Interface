@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>UEI - Student Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">📚 UEI</div>
+
+        <ul class="nav-links">
+            <li><a href="/student-dashboard">Dashboard</a></li>
+            <li><a href="/join-class">Join Class</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="welcome-section">
+        <h1>Hi, {{ session['name'] }}! 👋</h1>
+        <p>Welcome to your dashboard</p>
+    </section>
+
+    <div class="dashboard-card">
+
+        <h2>📢 Admin Announcements</h2>
+
+        {% for a in admin_announcements %}
+
+        <p>
+
+            <b>{{ a[2] }}</b><br>
+
+            {{ a[1] }}
+
+        </p>
+
+        <hr>
+
+        {% endfor %}
+
+    </div>
+
+    <div class="dashboard-container">
+
+        <!-- MY CLASSES -->
+        <div class="dashboard-card">
+
+            <h2>📚 My Classes</h2>
+
+            {% if my_classes %}
+
+            {% for class in my_classes %}
+
+            <div class="class-card">
+
+                <h3>{{ class[1] }}</h3>
+
+                <p>
+                    <strong>Teacher:</strong>
+                    {{ class[2] }}
+                </p>
+
+                <p>
+                    <strong>Join Code:</strong>
+                    {{ class[3] }}
+                </p>
+
+                <a href="/class/{{ class[0] }}" class="btn-getstarted">
+                    Open Class
+                </a>
+
+                <hr>
+
+            </div>
+
+            {% endfor %}
+
+            {% else %}
+
+            <p>You haven't joined any classes yet.</p>
+
+            <a href="/join-class" class="btn-getstarted">
+                Join Class
+            </a>
+
+            {% endif %}
+
+        </div>
+
+        <!-- AI STUDY PLANNER -->
+        <div class="dashboard-card">
+
+            <h2>🤖 AI Study Planner</h2>
+
+            <p>
+                Generate a personalized study schedule based on your subjects and exam date.
+            </p>
+
+            <a href="/study-planner" class="btn-getstarted">
+                Open Planner
+            </a>
+
+            <a href="/planner-history" class="btn-getstarted">
+                📂 Previous Planners
+            </a>
+
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Unified Education Interface | B.E. CSE Mini Project</p>
+    </footer>
+
+</body>
+
+</html>
